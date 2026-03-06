@@ -9,8 +9,11 @@ Computational hardware such as transistors can only understand High or Low value
 - In decimal, the regular number system, digits are read left to right with positional weights being in power of 10.
 - Where in decimal each position can hold 10 digits 0 to 9, in binary it is a bit - 0 or 1,  thus making weight of each position in power of 2.
 - Power in such systems systems start with zero for rightmost position and increases by one as we move towards left.
+
 $$ \text{Weighted Positional Bit Value} = 2^n \times bit(0,1)  $$
+
 $$ \text{Decimal Representation} = \text{Sum of weighted positional bit values} $$
+
 - Combination of eight such bits is a byte, representing 256 possibilities.
 - Using 32 bits  or even 64 bits to represent a chunk of information is a standard today.
 

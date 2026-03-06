@@ -43,3 +43,5 @@ Repeat certain block of code till required condition for repetition is true - `f
 - Signature of the functions should come before entering the main code 
 - Variables declared inside function are limited to scope of that function
 - However values can be passed as arguments if parameters considered in function definition
+
+# Problem Set 1
