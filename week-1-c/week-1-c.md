@@ -49,17 +49,20 @@ Repeat certain block of code till required condition for repetition is true - `f
 ### 1. Hello, World
 
 ``
+
 #include <stdio.h>
 
 int main()
 {
     printf("hello, world\n");
 }
+
 ``
 
 ### 2. [Hello, Me](https://github.com/me50/iamshrisawant/tree/9116fe789df578cd5f8c1d4687bea34b8fb208fe)
 
 ``
+
 #include <cs50.h>
 #include <stdio.h>
 
@@ -68,11 +71,13 @@ int main()
     string name = get_string("name?\n");
     printf("hello, %s\n", name);
 }
+
 ``
 
 ### 3. [Mario-less](https://github.com/me50/iamshrisawant/tree/390fb3f4ddc2f0396d818831a2094966f4e2bd4a)
 
 ``
+
 #include <cs50.h>
 #include <stdio.h>
 
@@ -97,11 +102,13 @@ int main()
         printf("\n"); //new row
     }
 }
+
 ``
 
 ### 4. [Mario-more](https://github.com/me50/iamshrisawant/tree/e1ca3787033b3af51386373c99d5d1dd5597ac9c)
 
 ``
+
 #include <cs50.h>
 #include <stdio.h>
 
@@ -131,11 +138,13 @@ int main()
         printf("\n"); // next row
     }
 }
+
 ``
 
 ### 5. [cash](https://github.com/me50/iamshrisawant/tree/d4aa4610383d0dbbc7fb26dc2762e6159965c193)
 
 ``
+
 #include <cs50.h>
 #include <stdio.h>
 
@@ -166,6 +175,73 @@ int change(int x) // change function definition
     y += x;
     return y; // return total coins evaluated
 }
+
 ``
 
-### 6. [credit]()
+### 6. [credit](https://github.com/me50/iamshrisawant/tree/2a1c895edd18c6223ff71463fef59c9be3ed230a)
+
+``
+
+#include <cs50.h>
+#include <math.h>
+#include <stdio.h>
+
+int checksum(long x);
+
+int main()
+{
+    long num = 0;
+    while (num <= 0)
+    {
+        num = get_long("Number:"); // get card number
+    }
+    if (checksum(num) % 10 == 0)
+    {
+        if (num / 1000000000000L == 4 || num / 1000000000000000L == 4)
+        {
+            printf("VISA\n");
+        }
+        else if (num / 100000000000000L > 50 && num / 100000000000000L < 56)
+        {
+            printf("MASTERCARD\n");
+        }
+        else if (num / 10000000000000L == 34 || num / 10000000000000L == 37)
+        {
+            printf("AMEX\n");
+        }
+        else
+        {
+            printf("INVALID\n");
+        }
+    }
+    else
+    {
+        printf("INVALID\n");
+    }
+    return 0;
+}
+
+int checksum(long x)
+{
+    int num1 = 0;
+    int num2 = 0;
+    do
+    {
+        num1 += x % 10;                  // add every first digit
+        int check = 2 * ((x / 10) % 10); // double every other digit
+        if (check > 9)                   // sum the double if double digit
+        {
+            int sum = (check % 10) + (check / 10);
+            num2 += sum;
+        }
+        else
+        {
+            num2 += check; // add sum of double of every other digit
+        }
+        x = x / 100; // reduce number to get next 2 pairs
+    }
+    while (x > 0); // loop till x becomes 0
+    return num1 + num2; // retrun checksum
+}
+
+``
