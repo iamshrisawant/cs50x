@@ -1,4 +1,4 @@
-# Lecture 0
+# [Lecture 0](https://cs50.harvard.edu/x/weeks/0/)
 
 - Computer Science - Study of information, computational thinking, problem solving.
 - Input $\rightarrow$ Black Box $\rightarrow$ Output - black box being the problem solving element.
@@ -60,5 +60,5 @@ Logical steps to not only solve problems but to do it computationally efficient.
 - Abstractions - blocks implemented already to execute a certain logic.
 - Conditionals - allow to check truth of certain conditions.
 
-# Problem Set 0 - Starting from Scratch
-[Submission](https://github.com/me50/iamshrisawant/tree/386db88b0af64bf390851bb457551de7d5ded8b7)
+# [Problem Set 0](https://cs50.harvard.edu/x/psets/0/)
+[Submission](https://github.com/iamshrisawant/cs50x/blob/main/week-0-scratch/earth-defenders.sb3)

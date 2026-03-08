@@ -1,4 +1,4 @@
-# Lecture 1
+# [Lecture 1](https://cs50.harvard.edu/x/weeks/1/)
 
 - Source code - the program that us humans can understand
 - Machine code - the program that a machine can understand
@@ -44,25 +44,22 @@ Repeat certain block of code till required condition for repetition is true - `f
 - Variables declared inside function are limited to scope of that function
 - However values can be passed as arguments if parameters considered in function definition
 
-# Problem Set 1
+# [Problem Set 1](https://cs50.harvard.edu/x/psets/1/)
 
 ### 1. Hello, World
 
 ```
-
 #include <stdio.h>
 
 int main()
 {
     printf("hello, world\n");
 }
-
 ```
 
-### 2. [Hello, Me](https://github.com/me50/iamshrisawant/tree/9116fe789df578cd5f8c1d4687bea34b8fb208fe)
+### 2. [Hello, Me](https://cs50.harvard.edu/x/psets/1/me)
 
 ```
-
 #include <cs50.h>
 #include <stdio.h>
 
@@ -71,13 +68,11 @@ int main()
     string name = get_string("name?\n");
     printf("hello, %s\n", name);
 }
-
 ```
 
-### 3. [Mario-less](https://github.com/me50/iamshrisawant/tree/390fb3f4ddc2f0396d818831a2094966f4e2bd4a)
+### 3. [mario-less](https://cs50.harvard.edu/x/psets/1/mario/less)
 
 ```
-
 #include <cs50.h>
 #include <stdio.h>
 
@@ -102,13 +97,11 @@ int main()
         printf("\n"); //new row
     }
 }
-
 ```
 
-### 4. [Mario-more](https://github.com/me50/iamshrisawant/tree/e1ca3787033b3af51386373c99d5d1dd5597ac9c)
+### 4. [mario-more](https://cs50.harvard.edu/x/psets/1/mario/more)
 
 ```
-
 #include <cs50.h>
 #include <stdio.h>
 
@@ -140,11 +133,9 @@ int main()
 }
 
 ```
-
-### 5. [cash](https://github.com/me50/iamshrisawant/tree/d4aa4610383d0dbbc7fb26dc2762e6159965c193)
+### 5. [cash](https://cs50.harvard.edu/x/psets/1/cash/)
 
 ```
-
 #include <cs50.h>
 #include <stdio.h>
 
@@ -175,13 +166,11 @@ int change(int x) // change function definition
     y += x;
     return y; // return total coins evaluated
 }
-
 ```
 
-### 6. [credit](https://github.com/me50/iamshrisawant/tree/2a1c895edd18c6223ff71463fef59c9be3ed230a)
+### 6. [credit](https://cs50.harvard.edu/x/psets/1/credit/)
 
 ```
-
 #include <cs50.h>
 #include <math.h>
 #include <stdio.h>
@@ -243,5 +232,4 @@ int checksum(long x)
     while (x > 0); // loop till x becomes 0
     return num1 + num2; // retrun checksum
 }
-
 ```
