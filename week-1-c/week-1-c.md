@@ -48,7 +48,7 @@ Repeat certain block of code till required condition for repetition is true - `f
 
 ### 1. Hello, World
 
-``
+```
 
 #include <stdio.h>
 
@@ -57,11 +57,11 @@ int main()
     printf("hello, world\n");
 }
 
-``
+```
 
 ### 2. [Hello, Me](https://github.com/me50/iamshrisawant/tree/9116fe789df578cd5f8c1d4687bea34b8fb208fe)
 
-``
+```
 
 #include <cs50.h>
 #include <stdio.h>
@@ -72,11 +72,11 @@ int main()
     printf("hello, %s\n", name);
 }
 
-``
+```
 
 ### 3. [Mario-less](https://github.com/me50/iamshrisawant/tree/390fb3f4ddc2f0396d818831a2094966f4e2bd4a)
 
-``
+```
 
 #include <cs50.h>
 #include <stdio.h>
@@ -103,11 +103,11 @@ int main()
     }
 }
 
-``
+```
 
 ### 4. [Mario-more](https://github.com/me50/iamshrisawant/tree/e1ca3787033b3af51386373c99d5d1dd5597ac9c)
 
-``
+```
 
 #include <cs50.h>
 #include <stdio.h>
@@ -139,11 +139,11 @@ int main()
     }
 }
 
-``
+```
 
 ### 5. [cash](https://github.com/me50/iamshrisawant/tree/d4aa4610383d0dbbc7fb26dc2762e6159965c193)
 
-``
+```
 
 #include <cs50.h>
 #include <stdio.h>
@@ -176,11 +176,11 @@ int change(int x) // change function definition
     return y; // return total coins evaluated
 }
 
-``
+```
 
 ### 6. [credit](https://github.com/me50/iamshrisawant/tree/2a1c895edd18c6223ff71463fef59c9be3ed230a)
 
-``
+```
 
 #include <cs50.h>
 #include <math.h>
@@ -244,4 +244,4 @@ int checksum(long x)
     return num1 + num2; // retrun checksum
 }
 
-``
+```
