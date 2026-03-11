@@ -32,5 +32,17 @@
 - Memory holds data form of bits/bytes into contiguous blocks of it.
 - All computation does is flip those bits by logically adressing their blocks in memory
 
+### Arrays
+- A sequence of values contiguously arranged in memory
+- Of the same datatype
+- `Variable[Index]` represents each unique value
+- Declaring an array requires declaring it with a designated length
+- When passing an array to function, another argument should be it's length
+
+### Strings
+- A sequence of `char`s where, `char`s are again numbers mapped to ASCII numbers to represent using 8 bits in contiguous memory
+- Thus an array of characters, but length is +1 than number of chars for  terminal character NUL `\0` indicating end of string with `""`
+- `string.h` header file contains string related libraries to use various functions to operate on strings with ease
+---
 - **cryptography**: scrambling information to achieve secure communication of it
 - One might encrypt a message and others might access it but only the designated receiver should be able to read it.
