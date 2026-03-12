@@ -43,6 +43,29 @@
 - A sequence of `char`s where, `char`s are again numbers mapped to ASCII numbers to represent using 8 bits in contiguous memory
 - Thus an array of characters, but length is +1 than number of chars for  terminal character NUL `\0` indicating end of string with `""`
 - `string.h` header file contains string related libraries to use various functions to operate on strings with ease
----
-- **cryptography**: scrambling information to achieve secure communication of it
-- One might encrypt a message and others might access it but only the designated receiver should be able to read it.
+
+### Command Line Arguments
+- Commands like - make, clang, -o, etc and parameters expected at executions.
+- Normally  `main()` takes to no input thus it has input as function- `void`
+- To make a program accept such command line arguments `main(int argc, string argv[])`
+    - `int argc` is count of arguments to be provided
+    - `string argv[]` is a vector of acceptable arguments
+- `argv[0]` contains the file name created for the program
+- `argv[1]` and further may contain all accepted and acceptable command line arguments
+
+### Exit Status
+- Represents specific cases to denote success, failure and cause of failure
+- Measure to point out to what in program has gone wrong
+- Return 0 denotes success, any number within a range apart from standard conventions can be used to denote program specific code failures
+- `echo $?` command returns the status code assigned to program for return at failure
+
+### Cryptography
+- **Encryption**: Scrambling information to achieve secure communication of it in a reversible way
+- One might encrypt a message and others might access it but only the designated receiver should be able to read it
+- Plain Text: Original useful data
+- Cipher Text: Original Data scrambled in a reversible order
+- Secret Key: Particular value used to scramble data
+- Cipher: Function that takes in secret key, plain text to return Cipher Text
+- The secret key and cipher function is known only to sender and receiver for secure connection
+- **Decryption**: Reverse the Cipher function get plain text from cipher text.
+
