@@ -69,3 +69,77 @@
 - The secret key and cipher function is known only to sender and receiver for secure connection
 - **Decryption**: Reverse the Cipher function get plain text from cipher text.
 
+# [Problem Set 2](https://cs50.harvard.edu/x/psets/2/)
+
+### 1. [Scrabble](https://cs50.harvard.edu/x/psets/2/scrabble)
+
+```
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+
+int calculate_score(string s);
+
+int scores[] = {1, 3, 3, 2,  1, 4, 2, 4, 1, 8, 5, 1, 3,
+                1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10}; // Global declaration of score table
+
+int main()
+{
+    int score1, score2;
+    string in = get_string("Player 1: "); // Read player 1 input
+    score1 = calculate_score(in);         // calculate score for player 1
+    in = get_string("Player 2: ");
+    score2 = calculate_score(in);
+    // check for what is greater or if it is a tie
+    if (score1 > score2)
+    {
+        printf("Player 1 wins!\n");
+    }
+    else if (score1 < score2)
+    {
+        printf("Player 2 wins!\n");
+    }
+    else
+    {
+        printf("Tie!\n");
+    }
+}
+
+int calculate_score(string s)
+{
+    int score = 0;                // set initial score to 0
+    int len = strlen(s);          // take string length
+    for (int i = 0; i < len; i++) // iterate till last letter in string
+    {
+        if (s[i] >= 'a' && s[i] <= 'z') // check for lowercase letters
+        {
+            score =
+                score + scores[(s[i] - 97)]; // make found letter to postionally equivalent with
+                                             // index in scores table as ASCII equivalent of a is 97
+        }
+        if (s[i] >= 'A' && s[i] <= 'Z') // check for uppercase letters
+        {
+            score = score + scores[(s[i] - 65)]; // as ASCII equivalent of A is 65
+        }
+    }
+    return score; // return calculated score for input string
+}
+```
+
+### 2. [Readability](https://cs50.harvard.edu/psets/3/readability)
+
+```
+
+```
+
+### 3. [Caesar](https://cs50.harvard.edu/psets/3/caesar)
+
+```
+
+```
+
+### 4. [Substitution](https://cs50.harvard.edu/psets/3/substitution)
+
+```
+
+```
