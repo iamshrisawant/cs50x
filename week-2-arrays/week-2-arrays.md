@@ -129,17 +129,216 @@ int calculate_score(string s)
 ### 2. [Readability](https://cs50.harvard.edu/psets/3/readability)
 
 ```
+#include <cs50.h>
+#include <math.h>
+#include <stdio.h>  //for math related functions - round
+#include <string.h> //for string related functions - strlen
 
+void count(char in);
+void grade(float l, float s);
+
+// to let all functions access three aspects of input text
+float words = 1;     // words separated blank space, first input is at least 1 word
+float letters = 0;   // initial letters to be zero unless found
+float sentences = 0; // initial sentences to be zero unless found end
+
+int main()
+{
+    float l = 0;                      // letters per 100 words
+    float s = 0;                      // sentences per 100 words
+    string in = get_string("Text: "); // input text
+    int len = strlen(in);             // compute string length
+    for (int i = 0; i < len; i++)
+    {
+        count(in[i]); // count total letters, words, sentences
+    }
+    l = ((l + letters) / words) *
+        100; // calculate average letters per word and therefore for 100 words
+    s = ((s + sentences) / words) *
+        100; // calculate average sentences per word and therefore for 100 words
+    grade(l, s);
+}
+
+void count(char in)
+{
+
+    if (in == ' ') // words separated with ' ' - blank spaces
+    {
+        words++; // increment words per found blank space
+    }
+    else if (in == '.' || in == '!' || in == '?') // sentences separated with '.' - full stops
+    {
+        sentences++; // increment sentences per found full stops
+    }
+    else if ((in >= 'a' && in <= 'z') || (in >= 'A' && in <= 'Z')) // look for character letters
+    {
+        letters++; // increment letters per found character letter
+    }
+}
+
+void grade(float l, float s)
+{
+    float index = (0.0588 * l) - (0.296 * s) - 15.8; // coleman liau index
+    int grade = round(index);                        // index rounded to integer
+    // condiotionals to set grade per coleman liau index and required scale
+    if (grade < 1)
+    {
+        printf("Before Grade 1\n");
+    }
+    else if (grade >= 16)
+    {
+        printf("Grade 16+\n");
+    }
+    else
+    {
+        printf("Grade %d\n", grade);
+    }
+}
 ```
 
 ### 3. [Caesar](https://cs50.harvard.edu/psets/3/caesar)
 
 ```
+#include <cs50.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int argc, string argv[])
+{
+    if (argc != 2) // check argument count is strictly 2 if not prompt usage of cauesar
+    {
+        printf("Usage: %s key\n", argv[0]);
+        return 1;
+    }
+    int key_len = strlen(argv[1]);
+    for (int i = 0; i < key_len; i++)
+    {
+        if (!(argv[1][i] >= '0' &&
+              argv[1][i] <= '9')) // check key is a positive number if not prompt usage of cauesar
+        {
+            printf("Usage: %s key\n", argv[0]);
+            return 1;
+        }
+    }
+    string ptext;
+    int key = atoi(argv[1]);           // convert key to an integer
+    ptext = get_string("plaintext: "); // get plain text string
+    int len = strlen(ptext);           // calculate length of plain text
+    // start printing cipher text
+    printf("ciphertext: ");
+    for (int i = 0; i < len; i++)
+    {
+        // for all characters base ASCII value to start from zero equivalent then restore
+        // substractions makes set start from 0 and addition restores to original ASCII value
+        if (ptext[i] >= 'a' && ptext[i] <= 'z')
+        {
+            printf("%c", (((ptext[i] - 97) + key) % 26) + 97);
+        }
+        else if (ptext[i] >= 'A' && ptext[i] <= 'Z')
+        {
+            printf("%c", (((ptext[i] - 65) + key) % 26) + 65);
+        }
+        else
+        {
+            printf("%c", ptext[i]);
+        }
+    }
+    printf("\n");
+    return 0; // program finished successfully
+}
 
 ```
 
 ### 4. [Substitution](https://cs50.harvard.edu/psets/3/substitution)
 
 ```
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, string argv[])
+{
+    if (argc != 2) // check if arguments are exactly 2
+    {
+        printf("Usage: %s key\n", argv[0]); //
+        return 1;
+    }
+    // check key length is 26 characters
+    int key_len = strlen(argv[1]);
+    if (key_len != 26)
+    {
+        printf("Key must contain 26 characters.\n");
+        return 1;
+    }
+    // check all key characters are alphabets
+    for (int i = 0; i < key_len; i++)
+    {
+        // check if a character is alphabetic
+        if (!((argv[1][i] >= 'A' && argv[1][i] <= 'Z') || (argv[1][i] >= 'a' && argv[1][i] <= 'z')))
+        {
+            printf("Key must only contain alphabetic characters.\n");
+            return 1;
+        }
+
+        for (int j = i + 1; j < key_len; j++)
+        {
+            char char_i = (argv[1][i] >= 'a') ? argv[1][i] - 32 : argv[1][i];
+            char char_j = (argv[1][j] >= 'a') ? argv[1][j] - 32 : argv[1][j];
+
+            if (char_i == char_j)
+            {
+                printf("Key must not contain duplicate characters.\n");
+                return 1;
+            }
+        }
+    }
+
+    // get plaintext from user
+    string in = get_string("plaintext:  ");
+    int len = strlen(in);
+
+    // encrypt and print ciphertext
+    printf("ciphertext: ");
+    for (int i = 0; i < len; i++)
+    {
+        // handle Uppercase
+        if (in[i] >= 'A' && in[i] <= 'Z')
+        {
+            int index = in[i] - 'A'; // get index 0-25
+            char out = argv[1][index];
+            // ensure output is uppercase even if key char is lowercase
+            if (out >= 'a' && out <= 'z')
+            {
+                printf("%c", out - 32);
+            }
+            else
+            {
+                printf("%c", out);
+            }
+        }
+        // handle Lowercase
+        else if (in[i] >= 'a' && in[i] <= 'z')
+        {
+            int index = in[i] - 'a';
+            char out = argv[1][index];
+            // ensure output is lowercase even if key char is uppercase
+            if (out >= 'A' && out <= 'Z')
+            {
+                printf("%c", out + 32);
+            }
+            else
+            {
+                printf("%c", out);
+            }
+        }
+        else
+        {
+            printf("%c", in[i]); // print characters other than alphabets as are
+        }
+    }
+    printf("\n");
+    return 0;
+}
 
 ```
