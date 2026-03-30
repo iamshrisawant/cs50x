@@ -28,10 +28,26 @@
 - Strings are basically an array of `char` datatype units which are addressable stored contiguously
 - `string` is defined as `char *`, a pointer to first character in memory
 - The declared variable holds the address of beginning of the string and `\0` holds where string ends
+- If we compare `strng` variables directly the addresses of first `char`s in are compared instead of contents
+- Thus `strcmp` accesses the values at the address to compare each `char` in string iteratively
+- Normal equation of `string`s would only copy address in RHS to LHS
+- Two functions help with memory operations well:
+  - `malloc` allocates memory equivalent to passed argument and passes address of first block to it's variable
+  - `free` takes that same address value to free the allocated space
+
+### valgrind
+- Aids to debug memory related errors
+- Outputs a insignt into program's memory usage
+- Usually verbose to read but helps with retaining most of memory alocated to the program
+
+- *Pointers are declared with deference operators which intially do not point to anything, called null pointers(`nullptr`)*
+- *Pointee is the value a pointer points at*
+- *`*` helps with dereferencing the address, `&` helps with accessing the address, where as a plain variable declared with `*` is supposed to hold an address*
+
 
 ### Pointer Arithmetic
 - Address or pointers are basically numbers, thus can be operated upon with arithmetics
 - To access continuous blocks in memory same similarly to that of an array
 - We simply add/subtract integers from variables holding address to point to required blocks
 
-# [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)
+# [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)=
