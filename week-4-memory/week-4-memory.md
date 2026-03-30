@@ -44,10 +44,24 @@
 - *Pointee is the value a pointer points at*
 - *`*` helps with dereferencing the address, `&` helps with accessing the address, where as a plain variable declared with `*` is supposed to hold an address*
 
-
 ### Pointer Arithmetic
 - Address or pointers are basically numbers, thus can be operated upon with arithmetics
 - To access continuous blocks in memory same similarly to that of an array
 - We simply add/subtract integers from variables holding address to point to required blocks
+
+- Memory is assigned in a deliberate way:
+  - The top of the memory usually holds machine code
+  - Then come the global values, variables which are defined outside of `main()`
+  - Then from top to bottom is **heap** which is growing allocation of memory using malloc
+  - At the bottom is **stack** which allocation of memory per call of function for it's local variables growing upwards
+- In this model, eventually, continuous allocation of memory would make **heap** and **stack** clash with each other causing a overflow
+  - Stack Overflow: When program tries to access memory beyond it's call stack
+  - Heap Overflow: A kind of Buffer Overflow, when program tries to write data more than the allocated buffer heap can hold
+- Use of pointers can significantly make programs more efficient with thoughtful operations over memory
+
+### scanf
+- Normally used to scan or take input in program instead of using cs50's `get_int`, `get_string`, etc.
+- Requires use of `&` to access variable's address while assigning input value to the address in case of variables
+- Strings or arrays however which already have declaration of first value address stored in pointer do not require use of `&` as variable itself holds address
 
 # [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)=
