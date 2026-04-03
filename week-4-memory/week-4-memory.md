@@ -64,4 +64,15 @@
 - Requires use of `&` to access variable's address while assigning input value to the address in case of variables
 - Strings or arrays however which already have declaration of first value address stored in pointer do not require use of `&` as variable itself holds address
 
-# [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)=
+### File I/O
+- Files are entities storing data residing in Solid State Drives or Random Access Memeory based on requirement.
+- fopen(): Opens and file and returns it's  file pointer - address to first it's first byte, requires a file access mode - `r` as read, `w` as write and `a` as append
+- fclose(): Closes an open file and ensures all data is saved to disk and flushed from memory
+- fprint(): Prints formatted text to file
+- fscanf(): Reads formatted data until it hits whitespaces
+- fread(): Reads binaries in the form of chunks directly into a buffer in memory
+- fwrite(): Writes to a block of binary data from memory to file
+- fseek(): Allows to navigate in file by moving cursor over blocks without reading sequentially
+- Pointer aids in file I/O by directly operating over files in the form of bytes
+
+# [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)
