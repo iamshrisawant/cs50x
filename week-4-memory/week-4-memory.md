@@ -76,3 +76,87 @@
 - Pointer aids in file I/O by directly operating over files in the form of bytes
 
 # [Problem Set 4](https://cs50.harvard.edu/x/psets/4/)
+
+### [volume](https://cs50.harvard.edu/x/psets/4/volume/)
+```
+// Modifies the volume of an audio file
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Number of bytes in .wav header
+const int HEADER_SIZE = 44;
+
+int main(int argc, char *argv[])
+{
+    // Check command-line arguments
+    if (argc != 4)
+    {
+        printf("Usage: ./volume input.wav output.wav factor\n"); // Take three arguments - input file, output file, factor to change volume by
+        return 1;
+    }
+
+    // Open files and determine scaling factor
+    FILE *input = fopen(argv[1], "r"); // reading input file
+    if (input == NULL)
+    {
+        printf("Could not open file.\n");
+        return 1;
+    }
+
+    FILE *output = fopen(argv[2], "w"); // writing to output file
+    if (output == NULL)
+    {
+        printf("Could not open file.\n");
+        return 1;
+    }
+
+    float factor = atof(argv[3]); // storing factor for operations
+
+    // PSET: Copy header from input file to output file
+    // unit8_t is a unsigned integer datatype that can hold a 8 bit number, that is a byte
+    uint8_t buffer[HEADER_SIZE]; // Create a byte buffer to hold the header of file
+
+    fread(buffer, sizeof(uint8_t), HEADER_SIZE, input);   // Read a byte at a time from input file header
+    fwrite(buffer, sizeof(uint8_t), HEADER_SIZE, output); // Write a byte at a time to ouput file header
+
+    // PSET: Read samples from input file and write updated data to output file
+    // int16_t is a signed datatype that can hold a 16 bit number both negatives and positives
+    int16_t sample; // Every sample in audio file has a size of 16 bits
+
+    while (fread(&sample, sizeof(int16_t), 1, input) ==
+           1) // while program can read a sample from file
+    {
+        sample = sample * factor;                    // factor the sample to scale it's volume
+        fwrite(&sample, sizeof(int16_t), 1, output); // write the modified sample to ouput file
+    }
+
+    // Close files
+    fclose(input);
+    fclose(output);
+}
+```
+
+### [filter-less](https://cs50.harvard.edu/x/psets/4/filter/less)
+
+```
+
+```
+
+### [filter-more](https://cs50.harvard.edu/x/psets/4/filter/less)
+
+
+### [recover](https://cs50.harvard.edu/x/psets/4/filter/less)
+
+##### Questions
+
+- volume
+  1. uint8_t
+  2. int16_t
+  3. factor multiplication in float and int16_t datatype
+- filter-less
+  1. getopt() in filter.c
+  2. optind in filter.c
+  3. BTMAPFILEHEADER, BITMAPINFOHEADER RGBTRIPLE, SEEK_CUR, calloc
+  4. How bitmap was read to convert it to a image[height][width] array?
