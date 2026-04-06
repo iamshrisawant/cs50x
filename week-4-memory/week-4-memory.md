@@ -388,15 +388,18 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
         }
     }
 
-    // Define Sobel kernels
-    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    // Sobel Kernels for edge detection
+    // - On edges pixel colour values change rapidly in a local neighbourhood
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}; // The horizontal gradient - calculates difference between left side and right side of local pixel                                                                // ignoring everything above and below
 
-    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
-
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}; // The vertical gradient - calculates difference between above and below of of local pixel
+                                                         // ignores everything on both sides
+    //pixels directly above and on sides are closer to local pixel than those in corner hence middle ones are (-2,2) to weight more and corner ones are (-1,1)
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
+            // Local variables to acculmulate colour values for a pixel
             float GxR = 0, GxG = 0, GxB = 0;
             float GyR = 0, GyG = 0, GyB = 0;
 
@@ -405,18 +408,20 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             {
                 for (int c = -1; c <= 1; c++)
                 {
+                    // 3x3 neighbourhood indices per pixel in neighbourhood
                     int row = i + r;
                     int col = j + c;
 
-                    // If pixel is within bounds, add its weighted value
+                    // If pixel is within image bounds, add its weighted value
                     // If out of bounds, it's treated as 0 (black), so we do nothing
                     if (row >= 0 && row < height && col >= 0 && col < width)
                     {
-                        // Weighted values of each colour in reference image over sobel kernel
+                        // Weighting colour values with sobel kernel and accumulating for each neighbourhood pixel
+                        // Horizontal accumulation of differences
                         GxR += copy[row][col].rgbtRed * Gx[r + 1][c + 1];
                         GxG += copy[row][col].rgbtGreen * Gx[r + 1][c + 1];
                         GxB += copy[row][col].rgbtBlue * Gx[r + 1][c + 1];
-
+                        // Vertical accumulation of differences
                         GyR += copy[row][col].rgbtRed * Gy[r + 1][c + 1];
                         GyG += copy[row][col].rgbtGreen * Gy[r + 1][c + 1];
                         GyB += copy[row][col].rgbtBlue * Gy[r + 1][c + 1];
@@ -424,7 +429,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                 }
             }
 
-            // Combine Gx and Gy results
+            // Calculate intesity of current pixel with accumulated colour values from neighbourhood
             int red = round(sqrt(GxR * GxR + GyR * GyR));
             int green = round(sqrt(GxG * GxG + GyG * GyG));
             int blue = round(sqrt(GxB * GxB + GyB * GyB));
@@ -435,6 +440,9 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             image[i][j].rgbtBlue = (blue > 255) ? 255 : blue;
         }
     }
+    // While this code detects edges - it also leaves some traces of pixel which are lit for a colour even with tiny difference
+    // not completely white not completely black
+    // can be controlled with a less than filter but then it makes the math less sensitive missing tiny changes in edges
     return;
 }
 ```
