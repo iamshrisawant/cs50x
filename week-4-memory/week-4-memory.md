@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 #include <math.h>
 
 // Convert image to grayscale
-void grayscale(int height, int width, RGBTRIPLE image[height][width])
+void grayscale(int height, int width, RGBTRIPLE image[height][width]) // RGBTRIPLE is defined in 'wingdi.h' to hold each colour value of a pixel in three bytes
 {
     for (int i = 0; i < height; i++) // Iterate per row of pixels of image
     {
@@ -450,11 +450,12 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
 ### [recover](https://cs50.harvard.edu/x/psets/4/filter/less)
 
 ```
+// To find JPEG images from a pile
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define a byte for easier buffer management
+// BYTE defined using an 8-bit integer datatype
 typedef uint8_t BYTE;
 
 int main(int argc, char *argv[])
@@ -466,7 +467,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Open the forensic image (memory card)
+    // Open the original image
     FILE *input_file = fopen(argv[1], "r");
     if (input_file == NULL)
     {
@@ -479,13 +480,13 @@ int main(int argc, char *argv[])
 
     // Variables to track the output JPEGs
     FILE *output_file = NULL;
-    char filename[8]; // Enough for "###.jpg\0"
+    char filename[8];
     int image_count = 0;
 
-    // Read the memory card block by block (512 bytes each)
+    // Read the memory card block by block
     while (fread(buffer, 1, 512, input_file) == 512)
     {
-        // Check if the current block is the start of a new JPEG
+        // Check if the current block is the start of a new JPEG with it's signature
         if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff &&
             (buffer[3] & 0xf0) == 0xe0)
         {
@@ -495,8 +496,8 @@ int main(int argc, char *argv[])
                 fclose(output_file);
             }
 
-            // Create a name for the new file (e.g., 000.jpg)
-            sprintf(filename, "%03i.jpg", image_count);
+            // Create a name for the new file
+            sprintf(filename, "%03i.jpg", image_count); // %03i pads leading 0s to numbers less than 100, sprintf stores the names to the string buffer filename
             output_file = fopen(filename, "w");
             image_count++;
         }
@@ -518,17 +519,3 @@ int main(int argc, char *argv[])
     return 0;
 }
 ```
-
-##### Questions
-
-- volume
-  1. uint8_t
-  2. int16_t
-  3. factor multiplication in float and int16_t datatype
-- filter-less
-  1. getopt() in filter.c
-  2. optind in filter.c
-  3. BTMAPFILEHEADER, BITMAPINFOHEADER RGBTRIPLE, SEEK_CUR, calloc
-  4. How bitmap was read to convert it to a image[height][width] array?
-- filter-more: How sobel kernel works?
-- recover: How come recover has one raw file and we have iterate for jpegs?
