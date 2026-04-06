@@ -141,13 +141,375 @@ int main(int argc, char *argv[])
 ### [filter-less](https://cs50.harvard.edu/x/psets/4/filter/less)
 
 ```
+// Helper for main filter.c file to outsource filters logic
 
+#include "helpers.h" //Define function signatures of helper.c
+#include <math.h>
+
+// Convert image to grayscale
+void grayscale(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++) // Iterate per row of pixels of image
+    {
+        for (int j = 0; j < width; j++) // Iterate per column
+        {
+            float average =
+                (image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3.0; // Average of all values in RGB
+            int result = round(average);
+
+            // Define the shade of grey - R = G = B = Average, to keep brightness consistency
+            image[i][j].rgbtRed = result;
+            image[i][j].rgbtGreen = result;
+            image[i][j].rgbtBlue = result;
+        }
+    }
+    return;
+}
+
+// Convert image to sepia
+void sepia(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            // Calculate sepia values as floats
+            float sepiaRed = .393 * image[i][j].rgbtRed + .769 * image[i][j].rgbtGreen +
+                             .189 * image[i][j].rgbtBlue;
+            float sepiaGreen = .349 * image[i][j].rgbtRed + .686 * image[i][j].rgbtGreen +
+                               .168 * image[i][j].rgbtBlue;
+            float sepiaBlue = .272 * image[i][j].rgbtRed + .534 * image[i][j].rgbtGreen +
+                              .131 * image[i][j].rgbtBlue;
+
+            // Round the results of calculated values to be integers
+            int totalRed = round(sepiaRed);
+            int totalGreen = round(sepiaGreen);
+            int totalBlue = round(sepiaBlue);
+
+            // Cap the values at 255 as a pixel can show 0 to 255 shades per colour
+            image[i][j].rgbtRed = (totalRed > 255) ? 255 : totalRed;
+            image[i][j].rgbtGreen = (totalGreen > 255) ? 255 : totalGreen;
+            image[i][j].rgbtBlue = (totalBlue > 255) ? 255 : totalBlue;
+        }
+    }
+    return;
+}
+
+// Reflect image horizontally
+void reflect(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+    {
+        // Loop only to the halfway point
+        for (int j = 0; j < width / 2; j++)
+        {
+            // Store the left pixel in a temporary variable
+            RGBTRIPLE temp = image[i][j];
+
+            // Move the right pixel into the left position
+            image[i][j] = image[i][width - 1 - j]; // Since opposite index for j = 0 is one less than total width in array
+                                                      and so on for all j values as j increments
+
+            // Move the temporary (original left) pixel into the right position
+            image[i][width - 1 - j] = temp;
+        }
+    }
+    return;
+}
+
+// Blur image
+void blur(int height, int width, RGBTRIPLE image[height][width])
+{
+    // Creating a reference image
+    RGBTRIPLE copy[height][width];
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            copy[i][j] = image[i][j];
+        }
+    }
+
+    // Start iterating over image
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            float sumRed = 0, sumGreen = 0, sumBlue = 0; // Accumulators of colours
+            int counter = 0;
+
+            // Look at the 3x3 neighbourhood with r by c kernel moving from -1 to 0 to 1
+            for (int r = -1; r <= 1; r++)
+            {
+                for (int c = -1; c <= 1; c++)
+                {
+                    // Current pixel's neighbouring pixel in 3x3
+                    int neighborRow = i + r; 
+                    int neighborCol = j + c;
+
+                    // Check if neighbour is valid (within image bounds)
+                    if (neighborRow >= 0 && neighborRow < height && neighborCol >= 0 &&
+                        neighborCol < width)
+                    {
+                        // Sum of intensities of each colour in 3x3 neighbourhood from reference image
+                        sumRed += copy[neighborRow][neighborCol].rgbtRed;
+                        sumGreen += copy[neighborRow][neighborCol].rgbtGreen;
+                        sumBlue += copy[neighborRow][neighborCol].rgbtBlue;
+
+                        // Keep a count of pixels
+                        counter++;
+                    }
+                }
+            }
+
+            // Calculate average and update actual image
+            image[i][j].rgbtRed = round(sumRed / counter);
+            image[i][j].rgbtGreen = round(sumGreen / counter);
+            image[i][j].rgbtBlue = round(sumBlue / counter);
+        }
+    }
+    return;
+}
 ```
 
 ### [filter-more](https://cs50.harvard.edu/x/psets/4/filter/less)
+```
+// Helper for main filter.c file to outsource filters logic
 
+#include "helpers.h" //Define function signatures of helper.c
+#include <math.h>
+
+// Convert image to grayscale
+void grayscale(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++) // Iterate per row of pixels of image
+    {
+        for (int j = 0; j < width; j++) // Iterate per column
+        {
+            float average =
+                (image[i][j].rgbtRed + image[i][j].rgbtGreen + image[i][j].rgbtBlue) / 3.0; // Average of all values in RGB
+            int result = round(average);
+
+            // Define the shade of grey - R = G = B = Average, to keep brightness consistency
+            image[i][j].rgbtRed = result;
+            image[i][j].rgbtGreen = result;
+            image[i][j].rgbtBlue = result;
+        }
+    }
+    return;
+}
+
+// Reflect image horizontally
+void reflect(int height, int width, RGBTRIPLE image[height][width])
+{
+    for (int i = 0; i < height; i++)
+    {
+        // Loop only to the halfway point
+        for (int j = 0; j < width / 2; j++)
+        {
+            // Store the left pixel in a temporary variable
+            RGBTRIPLE temp = image[i][j];
+
+            // Move the right pixel into the left position
+            image[i][j] = image[i][width - 1 - j]; // Since opposite index for j = 0 is one less than total width in array
+                                                      and so on for all j values as j increments
+
+            // Move the temporary (original left) pixel into the right position
+            image[i][width - 1 - j] = temp;
+        }
+    }
+    return;
+}
+
+// Blur image
+void blur(int height, int width, RGBTRIPLE image[height][width])
+{
+    // Creating a reference image
+    RGBTRIPLE copy[height][width];
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            copy[i][j] = image[i][j];
+        }
+    }
+
+    // Start iterating over image
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            float sumRed = 0, sumGreen = 0, sumBlue = 0; // Accumulators of colours
+            int counter = 0;
+
+            // Look at the 3x3 neighbourhood with r by c kernel moving from -1 to 0 to 1
+            for (int r = -1; r <= 1; r++)
+            {
+                for (int c = -1; c <= 1; c++)
+                {
+                    // Current pixel's neighbouring pixel in 3x3
+                    int neighborRow = i + r; 
+                    int neighborCol = j + c;
+
+                    // Check if neighbour is valid (within image bounds)
+                    if (neighborRow >= 0 && neighborRow < height && neighborCol >= 0 &&
+                        neighborCol < width)
+                    {
+                        // Sum of intensities of each colour in 3x3 neighbourhood from reference image
+                        sumRed += copy[neighborRow][neighborCol].rgbtRed;
+                        sumGreen += copy[neighborRow][neighborCol].rgbtGreen;
+                        sumBlue += copy[neighborRow][neighborCol].rgbtBlue;
+
+                        // Keep a count of pixels
+                        counter++;
+                    }
+                }
+            }
+
+            // Calculate average and update actual image
+            image[i][j].rgbtRed = round(sumRed / counter);
+            image[i][j].rgbtGreen = round(sumGreen / counter);
+            image[i][j].rgbtBlue = round(sumBlue / counter);
+        }
+    }
+    return;
+}
+
+// Detect edges
+void edges(int height, int width, RGBTRIPLE image[height][width])
+{
+    // Create a reference image
+    RGBTRIPLE copy[height][width];
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            copy[i][j] = image[i][j];
+        }
+    }
+
+    // Define Sobel kernels
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            float GxR = 0, GxG = 0, GxB = 0;
+            float GyR = 0, GyG = 0, GyB = 0;
+
+            // Iterate through the 3x3 neighborhood
+            for (int r = -1; r <= 1; r++)
+            {
+                for (int c = -1; c <= 1; c++)
+                {
+                    int row = i + r;
+                    int col = j + c;
+
+                    // If pixel is within bounds, add its weighted value
+                    // If out of bounds, it's treated as 0 (black), so we do nothing
+                    if (row >= 0 && row < height && col >= 0 && col < width)
+                    {
+                        // Weighted values of each colour in reference image over sobel kernel
+                        GxR += copy[row][col].rgbtRed * Gx[r + 1][c + 1];
+                        GxG += copy[row][col].rgbtGreen * Gx[r + 1][c + 1];
+                        GxB += copy[row][col].rgbtBlue * Gx[r + 1][c + 1];
+
+                        GyR += copy[row][col].rgbtRed * Gy[r + 1][c + 1];
+                        GyG += copy[row][col].rgbtGreen * Gy[r + 1][c + 1];
+                        GyB += copy[row][col].rgbtBlue * Gy[r + 1][c + 1];
+                    }
+                }
+            }
+
+            // Combine Gx and Gy results
+            int red = round(sqrt(GxR * GxR + GyR * GyR));
+            int green = round(sqrt(GxG * GxG + GyG * GyG));
+            int blue = round(sqrt(GxB * GxB + GyB * GyB));
+
+            // Cap at 255
+            image[i][j].rgbtRed = (red > 255) ? 255 : red;
+            image[i][j].rgbtGreen = (green > 255) ? 255 : green;
+            image[i][j].rgbtBlue = (blue > 255) ? 255 : blue;
+        }
+    }
+    return;
+}
+```
 
 ### [recover](https://cs50.harvard.edu/x/psets/4/filter/less)
+
+```
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a byte for easier buffer management
+typedef uint8_t BYTE;
+
+int main(int argc, char *argv[])
+{
+    // Ensure correct usage
+    if (argc != 2)
+    {
+        printf("Usage: ./recover IMAGE\n");
+        return 1;
+    }
+
+    // Open the forensic image (memory card)
+    FILE *input_file = fopen(argv[1], "r");
+    if (input_file == NULL)
+    {
+        printf("Could not open file %s.\n", argv[1]);
+        return 1;
+    }
+
+    // Buffer to store a 512-byte block
+    BYTE buffer[512];
+
+    // Variables to track the output JPEGs
+    FILE *output_file = NULL;
+    char filename[8]; // Enough for "###.jpg\0"
+    int image_count = 0;
+
+    // Read the memory card block by block (512 bytes each)
+    while (fread(buffer, 1, 512, input_file) == 512)
+    {
+        // Check if the current block is the start of a new JPEG
+        if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff &&
+            (buffer[3] & 0xf0) == 0xe0)
+        {
+            // If we were already writing to a file, close it
+            if (output_file != NULL)
+            {
+                fclose(output_file);
+            }
+
+            // Create a name for the new file (e.g., 000.jpg)
+            sprintf(filename, "%03i.jpg", image_count);
+            output_file = fopen(filename, "w");
+            image_count++;
+        }
+
+        // If an output file is currently open, write the block to it
+        if (output_file != NULL)
+        {
+            fwrite(buffer, 1, 512, output_file);
+        }
+    }
+
+    // Close any remaining open files
+    if (output_file != NULL)
+    {
+        fclose(output_file);
+    }
+    fclose(input_file);
+
+    return 0;
+}
+```
 
 ##### Questions
 
@@ -160,3 +522,5 @@ int main(int argc, char *argv[])
   2. optind in filter.c
   3. BTMAPFILEHEADER, BITMAPINFOHEADER RGBTRIPLE, SEEK_CUR, calloc
   4. How bitmap was read to convert it to a image[height][width] array?
+- filter-more: How sobel kernel works?
+- recover: How come recover has one raw file and we have iterate for jpegs?
