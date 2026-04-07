@@ -24,3 +24,21 @@
 - And again with `malloc(size)` can be used to allocate a bigger chunk and copy original array to it with added memory
 - `realloc(chunk, size)` abstracts away the copying part and reallocate the memory for array with original data in chunk
 - Even so it requires a temporary pointer to store addresses of original chunk and reallocated chunk
+
+### Linked Lists
+
+- No matter where the values are in memory, connecting them would make it contiguous
+- Values can be allocated memory using `malloc()` but allocation per value is not necessarily contiguous
+- To connect these values, memory can be allocated for a pointer to next chunk of allocation along side current value with `malloc()`
+- A `struct` definition of such structure can be:
+    ```
+    typedef struct node
+    {
+        int value;
+        struct node *next;
+    }node;
+    ```
+- When setting values in members of this structure for a instance at n,
+    - General method is: `(*n).value` / `(*n).next` - go to address of that node and update the fields
+    - In C syntax simplifies it as `n->value` / `n->next`
+
