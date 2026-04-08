@@ -38,7 +38,12 @@
         struct node *next;
     }node;
     ```
+    where node is a unit of it
 - When setting values in members of this structure for a instance at n,
     - General method is: `(*n).value` / `(*n).next` - go to address of that node and update the fields
     - In C syntax simplifies it as `n->value` / `n->next`
 
+*Linked lists with tow pointers for forward and backward traversal are called doubly linked list*
+
+### Trees
+- 
