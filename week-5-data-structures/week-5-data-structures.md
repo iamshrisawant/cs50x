@@ -43,7 +43,27 @@
     - General method is: `(*n).value` / `(*n).next` - go to address of that node and update the fields
     - In C syntax simplifies it as `n->value` / `n->next`
 
-*Linked lists with tow pointers for forward and backward traversal are called doubly linked list*
+*Linked lists with two pointers for forward and backward traversal are called doubly linked list*
 
 ### Trees
-- 
+-  A node is a unit of it with pointers leading to two of it's child nodes
+- Parent node is the one having a pointer leading to next node, the next node is child node
+- First node in the tree is the root node 
+- With each node having two childs, those with none at the end are the leaf nodes
+- *Binary Search Tree* has the property: Left node < Root node < Right node
+
+### Hashing
+- Mapping a finite or infinite domain of values to a fintite range of values
+- Bucketizes values into finite number of buckets where those should belong
+- A hash function determines the value of data based on which it get bucketized
+
+### Hash Tables
+- Associates a piece of data with another using hash function which outputs index for input value
+- Like the *key-value* pair logic of dictionaries, hash table have such pairs stored for data retrieval
+- Helpful for data retrieval operations with constant time complexity for insertion, deletion and search
+
+### Tries
+- Store strings through character arrays connected as linked lists
+- Common prefixes are shared among strings with breakpoints determined by null pointers
+- Takes up space - bad for small datasets, effective for big ones reaching constant time complexity
+
