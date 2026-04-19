@@ -67,3 +67,34 @@
 - Similar to that of libraries of C which requires setup with compiler, which is far too complex that `pip`
 
 *vim is also another text editor with additional support for text file editing and navigation entirely over keyboard*
+
+# [Problem Set 6]()
+
+### [hello]()
+
+```
+```
+
+### [mario-less]
+```
+```
+
+### [mario-more]
+```
+```
+
+### [cash]
+```
+```
+
+### [credit]
+```
+```
+
+### [readability]
+```
+```
+
+### [dna]
+```
+```
