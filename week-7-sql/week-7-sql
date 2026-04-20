@@ -1,0 +1,8 @@
+# [Lecture 7](https://cs50.harvard.edu/x/weeks/6)
+
+- SQL - Structured Query Langugage, a declarative programming language, where in general problem is declared and language figures out solution
+
+### Flat-file Databases
+- A normal csv file has data stored in it with normal text - a *flat-file database* with values separated by commas
+- tsv - tab separated values, psv - pipe separated vvlues are alike csv which use a character which will not appear in data to separate values
+- Each row in a csv can be considered a dictionary with headers and indices serving as keys for a value
