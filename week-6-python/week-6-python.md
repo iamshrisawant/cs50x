@@ -67,3 +67,249 @@
 - Similar to that of libraries of C which requires setup with compiler, which is far too complex that `pip`
 
 *vim is also another text editor with additional support for text file editing and navigation entirely over keyboard*
+
+# [Problem Set 6](https://cs50.harvard.edu/x/psets/6/)
+
+### [hello](https://cs50.harvard.edu/x/psets/6/hello/)
+
+```
+name = input("What is your name? ")  # Take input name from the user
+# Greet user with hello alongside their name formatted into the string
+print(f"hello, {name}")
+```
+
+### [mario-less](https://cs50.harvard.edu/x/psets/6/mario/less/)
+```
+from cs50 import get_int
+
+while True:
+    try:
+        height = get_int("Height: ")
+        # Check if height is within the allowed range (1-8)
+        if 1 <= height <= 8:
+            break
+    except ValueError:
+        # This catches non-numeric inputs like "foo" or ""
+        pass
+
+
+# Your optimized logic from before
+for i in range(1, height + 1):
+    print(" " * (height - i) + "#" * i)
+```
+
+### [mario-more](https://cs50.harvard.edu/x/psets/6/mario/more/)
+```
+from cs50 import get_int
+
+while True:
+    try:
+        height = get_int("Height: ")
+        # Check if height is within the allowed range (1-8)
+        if 1 <= height <= 8:
+            break
+    except ValueError:
+        # This catches non-numeric inputs like "foo" or ""
+        pass
+
+# Your optimized logic from before
+for i in range(1, height + 1):
+    print(" " * (height - i) + "#" * i + "  " + "#" * i)
+```
+
+### [cash](https://cs50.harvard.edu/x/psets/6/cash/)
+```
+from cs50 import get_float
+
+# Loop until the user gives a non-negative float
+while True:
+    change = get_float("Change owed: ")
+    if change >= 0:
+        break
+
+# Convert to cents
+cents = round(change * 100)
+coins = 0
+
+# Calculate Quarters
+coins += cents // 25
+cents %= 25
+
+# Calculate Dimes
+coins += cents // 10
+cents %= 10
+
+# Calculate Nickels
+coins += cents // 5
+cents %= 5
+
+# Calculate Pennies (whatever is left)
+coins += cents
+
+print(int(coins))
+```
+
+### [credit](https://cs50.harvard.edu/x/psets/6/credit/)
+```
+from cs50 import get_string
+import re
+
+# Prompt for input
+s = get_string("Number: ")
+
+# Checksum (Luhn's Algorithm)
+total = 0
+# Reverse the string to work from right to left
+digits = s[::-1]
+
+for i in range(len(digits)):
+    d = int(digits[i])
+    if i % 2 == 1:  # Every other digit, starting from the second-to-last
+        product = d * 2
+        total += (product // 10) + (product % 10)  # Add digits of product
+    else:
+        total += d
+
+if total % 10 != 0:
+    print("INVALID")
+else:
+    # Check AMEX - 15 digits, starts with 34 or 37
+    if re.match(r"^3[47]\d{13}$", s):
+        print("AMEX")
+    # MASTERCARD - 16 digits, starts with 51, 52, 53, 54, or 55
+    elif re.match(r"^5[1-5]\d{14}$", s):
+        print("MASTERCARD")
+    # VISA - 13 or 16 digits, starts with 4
+    elif re.match(r"^4(\d{12}|\d{15})$", s):
+        print("VISA")
+    else:
+        print("INVALID")
+```
+
+### [readability](https://cs50.harvard.edu/x/psets/6/readability/)
+```
+from cs50 import get_string
+
+# Get input text from user
+text = get_string("Text: ")
+
+letters = 0
+words = 1  # Assume at least one word as per your C logic
+sentences = 0
+
+# Iterate through each character in the text
+for char in text:
+    # Count letters (alphabetic only)
+    if char.isalpha():
+        letters += 1
+    # Count words (based on spaces)
+    elif char == " ":
+        words += 1
+    # Count sentences (based on ending punctuation)
+    elif char in [".", "!", "?"]:
+        sentences += 1
+
+# L is average letters per 100 words
+l = (letters / words) * 100
+# S is average sentences per 100 words
+s = (sentences / words) * 100
+
+# Coleman-Liau index formula
+index = (0.0588 * l) - (0.296 * s) - 15.8
+grade = round(index)
+
+# Output formatting
+if grade < 1:
+    print("Before Grade 1")
+elif grade >= 16:
+    print("Grade 16+")
+else:
+    print(f"Grade {grade}")
+```
+
+### [dna](https://cs50.harvard.edu/x/psets/6/dna/)
+```
+import csv
+import sys
+
+
+def main():
+
+    # Check for command-line usage
+    if len(sys.argv) != 3:
+        print("Usage: python dna.py data.csv sequence.txt")
+        sys.exit(1)
+
+    # Read database file into a variable
+    database = []
+    with open(sys.argv[1], "r") as file:
+        reader = csv.DictReader(file)
+        # Store the STR names (column headers) for later use
+        strs = reader.fieldnames[1:]
+        for row in reader:
+            database.append(row)
+
+    # Read DNA sequence file into a variable
+    with open(sys.argv[2], "r") as file:
+        sequence = file.read()
+
+    # Find longest match of each STR in DNA sequence
+    results = {}
+    for str_name in strs:
+        results[str_name] = longest_match(sequence, str_name)
+
+    # Check database for matching profiles
+    for person in database:
+        match = True
+        for str_name in strs:
+            # Compare the database value (as int) to our result
+            if int(person[str_name]) != results[str_name]:
+                match = False
+                break
+
+        if match:
+            print(person["name"])
+            return
+
+    print("No match")
+    return
+
+
+def longest_match(sequence, subsequence):
+
+    # Initialize variables
+    longest_run = 0
+    subsequence_length = len(subsequence)
+    sequence_length = len(sequence)
+
+    # Check each character in sequence for most consecutive runs of subsequence
+    for i in range(sequence_length):
+
+        # Initialize count of consecutive runs
+        count = 0
+
+        # Check for a subsequence match in a "substring" (a subset of characters) within sequence
+        while True:
+
+            # Adjust substring start and end
+            start = i + count * subsequence_length
+            end = start + subsequence_length
+
+            # If there is a match in the substring
+            if sequence[start:end] == subsequence:
+                count += 1
+
+            # If there is no match in the substring
+            else:
+                break
+
+        # Update most consecutive matches found
+        longest_run = max(longest_run, count)
+
+    # After checking for runs at each character in sequence, return longest run found
+    return longest_run
+
+
+if __name__ == "__main__":
+    main()
+```
