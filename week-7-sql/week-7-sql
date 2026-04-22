@@ -52,3 +52,5 @@
 - `UNIQUE` - ensures that a column has distinct values avoiding duplications
 - `PRIMARY KEY` - Unique identifier for each row in a table
 - `FOREIGN KEY` - If the `PRIMARY KEY` referenced in table other than parent
+
+# [Problem Set 7](https://cs50.harvard.edu/x/psets/7/)
