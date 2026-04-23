@@ -47,10 +47,25 @@
     - `NUMERIC` - Date, Time, etc.
     - `REAL` - Floats
     - `TEXT` - Text values
-- No more Data Types in SQLite, other SQL providers may have more
+    - No more Data Types in SQLite, other SQL providers may have more
 - `NOT NULL` - ensures absence of data is avoided
 - `UNIQUE` - ensures that a column has distinct values avoiding duplications
 - `PRIMARY KEY` - Unique identifier for each row in a table
 - `FOREIGN KEY` - If the `PRIMARY KEY` referenced in table other than parent
+
+### Indexes
+- Too much data may even slow down SQL queries as it is mostly linear operation
+- Database or usage of SQL can be optimized for certain common queries using indexes
+- Very oftenly created using a B-Tree, unlike inary tree it can have more than two children
+
+### SQL Injection Attacks
+- When using alongside other programming languages like python, SQL allows dynamically injection of variable values in queries
+- Sometimes these queries can tricked to do malicious activities with sufficient knowledge of SQL
+- Thus either using the standard library or using `?` placeholder in query and variable sequence outside query instead of injecting variable in the query directly avoids this
+
+### Race Conditions
+- Too much concurrent usage cuases a race condition if not handled well
+- Thus while accessing a database value it is enssential to lock it before anyone else inspects it only to run into a worse result
+- Transactions are used to access data, make changes and do commit those changes if everything's right otherwise abort to safekeep data
 
 # [Problem Set 7](https://cs50.harvard.edu/x/psets/7/)
