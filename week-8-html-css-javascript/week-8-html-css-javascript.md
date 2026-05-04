@@ -41,3 +41,40 @@
 - May also show all contents fetched in structuredmanner
 
 ### HTML
+- Hyper Text Markup Language, not a programming language consisting of building blocks
+- Tags are the code blocks to build a webpage
+- Attributes are the properties assigned to tags to define their behaviour
+
+### Regular Expressions
+- To validate input with patterns
+- Syntaxes:
+    - `.` single character
+    - `*` zero or more times
+    - `+` one or more times
+    - `?` zero or one time
+    - `{n}` n times
+    - `{n,m}` at least n at most m
+    - `[characters]` any of ther characters enclosed in `[]`
+    - `[char-char]` any one of the character from range
+    - `\d` any digit
+    - `\D` any character but a digit
+- To escape any of these syntaxes to use as characters use `\`
+
+### CSS
+- Cascading Style Sheets - not a programming language that provides aesthetics to HTML
+- Written in key-value pair properties under a selector:
+    - type selector: defining style for tag
+    - class selector: defining style for tags of declared class with `.` as prefix
+    - ID selector: 
+    - attribute selector:
+- Can be written inside HTML file with style tag or attribute or in separate file linked in
+
+### Bootstrap
+- A framework to use set of premade CSS classes
+- Referencing to such framework over link adds the style in that framework
+- Many such frameworks exists promoting reusability of code
+
+### Javascript
+- A client-side programming language to make website interactive
+- Allows fetch all data from server once and then proceed to show it computationally to allow Document Object Model(DOM)
+- Defined in the script tag near end of end of HTML body to make sure all HTML exists first
